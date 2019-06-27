@@ -1,93 +1,123 @@
-# EarnSpareMoney
-挣闲钱项目
+# readme
 
-## 重要说明
+URL前缀：http://happyzhier.club:3000
 
-+ 虽然我在github上给每个人都开了写的权限，但大家务必**先fork**到自己本地仓库，在自己本地仓库修改代码后再**push**到自己仓库，然后再**pull request**推到组织仓库，我再合并，这样能减少**冲突**。前端代码下除了app.*等几个文件，不要修改其它文件，特别是**pages**下其他人写的文件。自己的页面在pages文件夹下创建目录增加代码文件。还有就是**push**到自己仓库之前更新**fork**，也即重新fork。
+- 登录
 
-+ 更新fork操作：https://segmentfault.com/q/1010000002590371
+  **PUT**:`/login`
 
-  ```
-  首先要先确定一下是否建立了主repo的远程源：
-  
-  git remote -v
-  如果里面只能看到你自己的两个源(fetch 和 push)，那就需要添加主repo的源：
-  
-  git remote add upstream git@github.com:kesongyueproject/EarnSpareMoney.git
-  git remote -v
-  然后你就能看到upstream了。
-  
-  如果想与主repo合并：
-  
-  git fetch upstream
-  git merge upstream/master
-  ```
+  request body = {"uid" : [用户名], 
 
+  ​				"passwd" : [密码]}
 
-### 其它说明
+- 注册
 
-+ front-end 前端代码文件夹
-+ back-end 后端代码文件夹
+  **POST**：`/register`
 
+  request body = {"uid" : [用户名], 
 
+  ​				"passwd" : [密码],
 
-+ front-end文件夹下目录简解：
+  ​				"nickname":[昵称],
 
-  + pages：组员写的关于各页面的代码，根据自己的需要增加目录和代码。不要修改该目录下其他人写的代码
+  ​				"signature":[个性签名],
 
-  + style：从微信提供的原生控件样式库复制过来，已配置好，如需要，使用方法如下：
+  ​				"img_url":[头像],
 
-    ```xml
-    <view class="weui-cells">
-        <view class="weui-cell">
-            <view class="weui-cell__bd">名称</view>
-            <view class="weui-cell__ft">abc</view>
-        </view>
-    </view>
-    ```
+  ​				"tel":[电话],
 
-    通过`class`使用提供的css样式就行。
+  ​				"school":[学校],
 
-    原生控件库链接：https://github.com/Tencent/weui-wxss/，大家都下下来看看那个控件样式合适自己的，能用原生尽量用原生呗，省事又好用。
+  ​				"money":[金额],
 
-  + utils：emmm该目录我也不知道是干嘛的
+  ​				"credit":[信用度]}
 
-  + app.*几个文件是全局配置的吧。
+  >登录/注册会返回一个JSON数据，查看“msg”就可以知道提交结果，提交成功的话“msg”字段是“success”，错误的情况会有相应的提示信息。
+  >
+  >
 
-### 前端兄弟的工作
+- 获取个人信息
 
-+ 主页面的Tab框架我写的了，自己在pages目录下创建自己页面的目录，把相关的代码复制进去或拖进去，再在app.json文件修改一下tabbar里面的属性就行，下面代码中第三个路径就是我的页面，其他页面（找活动，发布活动，我的）自己要格式修改下即可：
+  **GET**:`/user?uid=[用户名]`
 
-  ```json
-  "tabBar": {
-      "list": [
-        {
-          "pagePath": "pages/myActivity/myActivity",
-          "iconPath": "pages/image/chat.png",
-          "selectedIconPath": "pages/image/chat.png",
-          "text": "找活动"
-        },
-        {
-          "pagePath": "pages/myActivity/myActivity",
-          "iconPath": "pages/image/contact.png",
-          "selectedIconPath": "pages/image/contact.png",
-          "text": "发布活动"
-        },
-        {
-          "pagePath": "pages/myActivity/myActivity",  
-          "iconPath": "pages/image/contact.png",
-          "selectedIconPath": "pages/image/contact.png",
-          "text": "我的活动"
-        },
-        {
-          "pagePath":"pages/myActivity/myActivity",
-          "iconPath": "pages/image/contact.png",
-          "selectedIconPath": "pages/image/contact.png",
-          "text": "我的"
-        }
-      ]
-    }
-  ```
+- 修改个人信息
 
+  **PUT**:`/user`
 
+  request body = {"uid" : [用户名], 
 
+  ​				"passwd" : [密码],
+
+  ​				"nickname":[昵称],
+
+  ​				"signature":[个性签名],
+
+  ​				"img_url":[头像],
+
+  ​				"tel":[电话],
+
+  ​				"school":[学校],
+
+  ​				"money":[金额],
+
+  ​				"credit":[信用度]}
+
+- 获取单个任务信息
+
+  **GET**:`/mission?mid=[任务序号]`
+
+- 获取所有任务信息
+
+  **GET**:`/missions`
+
+- 提交任务
+
+  **POST**:`/misson`
+
+  request body = { "title" : [标题],
+
+  ​				"uid":[发布人],
+
+  ​				"reward":[报酬],
+
+  ​				"mtype":[任务类型],
+
+  ​				"description": [任务描述],
+
+  ​				"imgs_url": [图片],
+
+  ​				"people_limit":[期望参与人数],
+
+  ​				"people":[已参与人数],
+
+  ​				"ing":[任务是否进行中]}
+
+- 参加任务
+
+  **POST:**`participate`
+
+  request body = { "mid" : [任务序号],
+
+  ​				"uid":[参与人]}
+
+- 完成任务
+
+  **PUT:**`finish`
+
+  request body = { "mid" : [任务序号],
+
+  ​				"uid":[参与人]}
+
+- 删除任务
+
+  **DELETE:**`mission`
+
+  request body = { "mid" : [任务序号]}
+
+- 取消参与任务
+
+  **DELETE:**`participate`
+
+  request body = { "mid" : [任务序号],
+
+  ​				"uid":[参与人]}
